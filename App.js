@@ -1,12 +1,15 @@
-import 'react-native-gesture-handler';
-import { StackNavigation } from './src/navigation/stack/StackNavigation';
-
+import { Provider } from 'react-redux'
+import { StackNavigation } from './src/navigation/StackNavigation';
+import { store } from './src/store'
 
 const App = () => {
   return (  
-    <>
-        <StackNavigation />
-    </>
+
+    <Provider store={ store }>
+
+      <StackNavigation />
+
+    </Provider>
     
   )
 }

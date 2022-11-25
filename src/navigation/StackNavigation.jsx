@@ -1,6 +1,6 @@
 import { NavigationContainer, DarkTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { LoginScreen, RegisterScreen } from '../../screens'
+import { HomeScreen, DetailsScreen, LoginScreen, RegisterScreen } from '../screens'
 
 
 const stack = createStackNavigator()
@@ -16,14 +16,16 @@ export const StackNavigation = () => {
         <stack.Navigator
            screenOptions={{
               headerShown: false,
-              cardStyle:{
-                backgroundColor: 'red'
-              }
+              cardStyle: { 
+                backgroundColor: '#15141F'
+            }
            }} 
         >
 
+          <stack.Screen name="HomeScreen" component={ HomeScreen } />
           <stack.Screen name='LoginScreen' component={ LoginScreen } />
           <stack.Screen name='RegisterScreen' component={ RegisterScreen } />
+          <stack.Screen name="DetailsScreen" component={ DetailsScreen } />
 
         </stack.Navigator>
 
