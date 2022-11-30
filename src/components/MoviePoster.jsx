@@ -1,4 +1,6 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { Text, Image, StyleSheet, Pressable, View } from 'react-native'
+import { useMovies } from '../hooks/useMovies';
 
 
 
@@ -7,23 +9,43 @@ export const MoviePoster = ({
   width = 160, 
   height = 230, 
   title = false, 
-  marginHorizontal = 0 ,
+  marginLeft = 0 ,
   borderRadius = 18,
+  sizeText = 12
 }) => {
+
+  const navigation = useNavigation();
+
+  const { startGetMovieId } = useMovies();
+
+  
 
   const uri = `https://image.tmdb.org/t/p/w500${ movie.poster_path }`
 
   return (
-    <>
-      <View style={{ ...styles.containerImg, width, height, marginHorizontal, borderRadius }}>
-        <Image 
-            source={{ uri }}
-            style={{ ...styles.img, borderRadius }}
-        />
+    <View style={{ alignItems: 'center' }}>
+      <Pressable 
+        onPress={ () => {
+          navigation.navigate( 'DetailsScreen', movie )
+          startGetMovieId(movie.id)
+        }}
+        style={{ ...styles.containerImg, width, height, borderRadius, marginLeft }}
+      >
+        {
+          movie?.poster_path && 
+            (
+                <Image 
+                  source={{ uri }}
+                  style={{ flex: 1, borderRadius }}
+                />
+            )
+        }
         
+      </Pressable>
+      <View style={{ width: 105, alignItems: 'center'}}>
+        <Text style={{ ...styles.title, fontSize: sizeText }}>{title && movie.title}</Text>
       </View>
-      <Text style={ styles.title}>{title && movie.title}</Text>
-    </>
+    </View>
   )
 }
 
@@ -43,10 +65,9 @@ const styles = StyleSheet.create({
   },
   title:{
     color: '#E2E2E2',
-    marginTop: 10,
+    marginTop: 2,
     textAlign: 'center',
-    fontSize: 12
+    marginLeft: 8
   }
-
 });
 

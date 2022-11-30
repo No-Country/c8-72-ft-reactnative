@@ -62,6 +62,7 @@ export const LoginScreen = ({ navigation }) => {
 
             <Pressable 
                 style={ styles.btnLogin }
+                onPress={ () => navigation.navigate('BottomTab')}
             >
                 <Text style={{ color: '#FFF', fontSize: 15, fontWeight: '600' }}>Iniciar Sesión</Text>
             </Pressable>

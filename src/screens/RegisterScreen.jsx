@@ -78,6 +78,7 @@ export const RegisterScreen = ({ navigation }) => {
 
             <Pressable 
                 style={{ ...styles.btnLogin,  marginTop: 15 }}
+                onPress={ () => navigation.navigate('BottomTab')}
             >
                 <Text style={{ color: '#FFF', fontSize: 15, fontWeight: '600' }}>Registrarme</Text>
             </Pressable>
