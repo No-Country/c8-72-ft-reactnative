@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     },
     icon:{
         bottom: 35,
-        left: 310
+        left: 310,
+        opacity: 0.8
     },
     forgotPassword: {
         color: '#FFF',
@@ -41,11 +42,10 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     btnLogin: {
-        backgroundColor: '#9D9D9D',
         borderColor: '#FFF',
         borderRadius: 25,
         fontWeight: '500',
-        height: 45,
+        height: 42,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 30

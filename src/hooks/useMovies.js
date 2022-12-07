@@ -20,7 +20,8 @@ export const useMovies = () => {
 
       const {
         moviesInTheaters, 
-        loading, idMovie, 
+        loading, 
+        idMovie, 
         infoVideos, 
         movieDetails,
         cast, 

@@ -1,94 +1,117 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { HomeScreen, MyListScreen, ProfileScreen, RecommendationsScreen } from '../screens';
+import { HomeScreen, AllScreen, ProfileScreen, SearchScreen } from '../screens';
 
 const TabBottom = createBottomTabNavigator();
 
 const BottomTab = () => {
 
   return (
-    <TabBottom.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          height: 60,
-          backgroundColor: '#211F30',
-        },
-        headerShown: false
-
-
-      }}
-    >
-
-      <TabBottom.Screen 
-        name="HomeScreen" 
-        component={ HomeScreen } 
-        options={{
-          tabBarLabelStyle: { color: '#747474', marginBottom: 5 },
-          tabBarLabel: 'Inicio',
-          tabBarIcon: ({ focused }) => (
-            <Icon 
-              name="home-outline"
-              color="#747474"
-              size={ 25 }
-              focused={ true }
-            />
-          )
+      <TabBottom.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            height: 65,
+            width: 310,
+            left: 31,
+            right:34,
+            borderRadius: 59,
+            backgroundColor: 'rgba(196, 196, 196, 0.4)',
+            opacity: 0.8,
+            position: 'absolute',
+          },
+          headerShown: false,
+          tabBarActiveTintColor: '#FFF',
+          tabBarInactiveTintColor: '#F8F8FF',
+          tabBarShowLabel: false,
+          tabBarHideOnKeyboard: true
         }}
-      />
+      >
 
-      <TabBottom.Screen 
-        name="MyListScreen" 
-        component={ MyListScreen } 
-        options={{
-          tabBarLabelStyle: { color: '#747474', marginBottom: 5 },
-          tabBarLabel: 'Mi lista',
-          tabBarIcon: ({ focused }) => (
-            <Icon 
-              name="list-outline"
-              color="#747474"
-              size={ 25 }
-              focused={ true }
-            />
-          )
-        }}
-      />
+        <TabBottom.Screen 
+          name="HomeScreen" 
+          component={ HomeScreen } 
+          options={{
+            tabBarLabelStyle: { marginBottom: 5 },
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon 
+                  name={ focused ? "home-sharp" : "home-outline" }
+                  color={ color }
+                  size={ 25 }
+                />
+                { focused && <Text style={ styles.point }>.</Text>}
+              </View>
+            )
+          }}
+        />
 
-      <TabBottom.Screen 
-        name="RecommendationsScreen" 
-        component={ RecommendationsScreen } 
-        options={{
-          tabBarLabelStyle: { color: '#747474', marginBottom: 5 },
-          tabBarLabel: 'Recomendaciones',
-          tabBarIcon: ({ focused }) => (
-            <Icon 
-              name="people-outline"
-              color="#747474"
-              size={ 25 }
-              focused={ true }
-            />
-          )
-        }}
-      />
+        <TabBottom.Screen 
+          name="SearchScreen" 
+          component={ SearchScreen } 
+          options={{
+            tabBarLabelStyle: { marginBottom: 5 },
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon 
+                  name={ focused ? "search" : "search-outline" }
+                  color={ color }
+                  size={ 25 }
+                />
+                { focused && <Text style={ styles.point }>.</Text>}
+              </View>
+            )
+          }}
+        />
 
-      <TabBottom.Screen 
-        name="ProfileScreen" 
-        component={ ProfileScreen } 
-        options={{
-          tabBarLabelStyle: { color: '#747474', marginBottom: 5 },
-          tabBarLabel: 'Mi perfil',
-          tabBarIcon: ({ focused }) => (
-            <Icon 
-              name="person-outline"
-              color="#747474"
-              size={ 25 }
-              focused={ true }
-            />
-          )
-        }}
-      />
-      
-    </TabBottom.Navigator>
+        <TabBottom.Screen 
+          name="AllScreen" 
+          component={ AllScreen } 
+          options={{
+            tabBarLabelStyle: { marginBottom: 5 },
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon 
+                name={ focused ? "bookmark" :"bookmark-outline"}
+                color={ color }
+                size={ 25 }
+                />
+                { focused && <Text style={ styles.point }>.</Text>}
+              </View>
+            )
+          }}
+        />
+
+        <TabBottom.Screen 
+          name="ProfileScreen" 
+          component={ ProfileScreen } 
+          options={{
+            tabBarLabelStyle: { marginBottom: 5 },
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon 
+                  name={ focused ? "person-sharp" :"person-outline"}
+                  color={ color }
+                  size={ 25 }
+                />
+                { focused && <Text style={ styles.point }>.</Text>}
+              </View>
+            )
+          }}
+        />
+        
+      </TabBottom.Navigator>
   );
 }
 
 export default BottomTab;
+
+const styles = StyleSheet.create({
+  point: { 
+    fontSize: 20,
+    color: '#FFF',
+    position: 'absolute',
+    top: 12,
+    left: 10 
+  }
+})

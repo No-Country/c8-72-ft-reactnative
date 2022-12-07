@@ -32,13 +32,13 @@ export const ListSearch = ({ search }) => {
                                 <View style={styles.containerSectionTwo}>
 
                                     <Icon
-                                        name="time-outline"
+                                        name="calendar-outline"
                                         size={16}
                                         color="#9D9D9F"
                                         style={{  width: 20}}
                                     /> 
 
-                                    <Text style={{color: '#9D9D9F', fontSize: 12}}>Minutos &bull; {''} 
+                                    <Text style={{color: '#9D9D9F', fontSize: 12}}>
                                         {item?.release_date?.slice(0, 4) ?? ''}{' '}
                                         &bull; {''} <Text style={{fontSize: 10}}>+</Text>
                                         {item.adult ? '18' : '13'}
@@ -68,13 +68,14 @@ const styles = StyleSheet.create({
   title: {
     color: '#E2E2E2', 
     width: 250, 
-    height: 35,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: 2
 },
   containerSectionTwo: {
     flexDirection: 'row',
     marginTop: 2,
     justifyContent: 'flex-start',
+    alignItems: 'center'
   },
   separator: {
     backgroundColor: '#E2E2E3',
