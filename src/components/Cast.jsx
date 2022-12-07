@@ -11,12 +11,15 @@ export const Cast = ({ cast }) => {
                 {
                 cast?.profile_path 
                     &&  (
-                            <View style={{ width: 80, marginLeft: 10}}>
+                            <View style={{ marginLeft: 20, flexDirection: 'row'}}>
                                 <Image 
                                     source={{ uri }}
                                     style={ styles.img}
                                 />
-                                <Text style={ styles.name }>{ cast.name }</Text>
+                                <View style={{ justifyContent: 'center', height: 40, marginHorizontal: 5}}>
+                                    <Text style={ styles.actor }>Actor</Text>
+                                    <Text style={ styles.name }>{ cast.name }</Text>
+                                </View>
                             </View>
                         )
                 
@@ -36,10 +39,14 @@ const styles = StyleSheet.create({
         width: 50,
         borderRadius: 50,
      },
+    actor: {
+        color:'#A5A5A5',
+        fontSize: 10
+    },
     name: {
-        color: '#C5C4C7', 
-        fontSize: 9, 
-        marginHorizontal: 6,
-        marginTop: 2
+        color: '#FFF', 
+        fontSize: 10, 
+        marginTop: 2,
+        fontWeight: '600'
     },
 });

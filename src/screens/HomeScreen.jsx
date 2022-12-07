@@ -1,42 +1,53 @@
 import { useEffect } from "react"
-import { Text, View, StyleSheet, ScrollView } from "react-native"
+import { Text, View, StyleSheet } from "react-native"
 
-import { CarouselMovie } from "../components/CarouselMovie";
-import { ListHorizontal } from "../components/ListHorizontal";
-import { Loading } from "../components/Loading";
-import { SearchHeader } from "../components/SearchHeader";
-import { useGenres } from "../hooks/useGenres";
-import { useMovies } from "../hooks/useMovies"
+import { Loading } from "../components/Loading"
+import { useMoviesStore } from "../hooks/useMoviesStore"
+import { 
+  CarouselMovie, 
+  Filter, 
+  GenresOptions, 
+  ListMoviesHorizontalMedium, 
+  ListMoviesHorizontalSmall 
+} from "../components"
+import { useAuthStore } from "../hooks/useAuthStore"
+
 
 
 
 
 export const HomeScreen = () => {
 
-  const { moviesInTheaters, loading, startGetMovieDB, startGetNextPage } = useMovies();
+  
 
-  const { action, adventure, comedy, fantasy, romance, horror } = useGenres();
+  const { user } = useAuthStore();
 
-    useEffect(() => {
-
-      const getMovie = async() => {
-        await startGetMovieDB()
-
-      }
-
-      getMovie()
+  const {
+    loading,
+    topRated,
+    popular,
+    youMayLike,
+    activeGenre,
+    startGetMovieDB,
+    startActiveGenre,
+    startMoviesGenre
+  } = useMoviesStore();
 
     
-    }, [])
+
+  useEffect(() => {
+    const getMovie = async() => {
+      await startGetMovieDB()
+    }
+    getMovie() 
+  }, [])
+    
     
 
   return (
 
-      <ScrollView>
-
-        <View style={{ flex: 1, paddingBottom: 30, backgroundColor: '#15141F' }}>
+        <View style={{ flex: 1, backgroundColor: '#1F1C2C' }}>
         
-
           {
             loading 
             ? (
@@ -46,44 +57,37 @@ export const HomeScreen = () => {
               )
             : (
                 <View>
-                  <Text style={ styles.titleMain }>Encuentra lo que quieres ver ahora.</Text>
 
-                    <SearchHeader />
+                  <Text style={ styles.user}>Hi, {user.name}</Text>
 
-                  <Text style={{ color:'#E2E2E2', marginLeft: 20, marginBottom: 15, fontSize: 15}}>Recomendaciones para ti</Text>
+                  <GenresOptions 
+                    activeGenre={ activeGenre} 
+                    startActiveGenre={ startActiveGenre } 
+                    startMoviesGenre={ startMoviesGenre }
+                  />
 
-                  <CarouselMovie moviesInTheaters={ moviesInTheaters } startGetNextPage={ startGetNextPage } />
+                  <Filter />
 
-                  {/* FlatList */}
+                  <CarouselMovie topRated={ topRated } />
 
-                  <ListHorizontal moviesGenres={ action } startGetNextPage={ startGetNextPage } title={'Acción'} />
-                  <ListHorizontal moviesGenres={ adventure } startGetNextPage={ startGetNextPage } title={'Aventura'} />
-                  <ListHorizontal moviesGenres={ comedy } startGetNextPage={ startGetNextPage } title={'Comedia'} />
-                  <ListHorizontal moviesGenres={ fantasy } startGetNextPage={ startGetNextPage } title={'Fantasía'} />
-                  <ListHorizontal moviesGenres={ romance } startGetNextPage={ startGetNextPage } title={'Romance'} />
-                  <ListHorizontal moviesGenres={ horror } startGetNextPage={ startGetNextPage } title={'Terror'} />
-                
+                  <ListMoviesHorizontalMedium movie={ popular } title="Popular" />
+
+                  <ListMoviesHorizontalSmall movie={ youMayLike } title="You may like" />
+                 
                 </View>
               )
-
           }      
-          
+        
         </View>
-
-      </ScrollView>
-
   )
 }
 
 const styles = StyleSheet.create({
-  titleMain:{ 
-    color: '#FFF', 
-    width: 200,
-    height: 50,
-    marginTop: 20,
-    marginLeft: 20,
-    fontSize: 22,
-    lineHeight: 25,
-    fontWeight: '600'
-  },
+    user: { 
+      color: '#FFF',
+      fontSize: 24,
+      fontWeight: '700',
+      marginHorizontal: 20,
+      marginVertical: 10
+    }
 })

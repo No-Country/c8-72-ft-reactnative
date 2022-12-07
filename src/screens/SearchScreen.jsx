@@ -1,58 +1,63 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { useState } from "react";
+import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native"
 import Icon  from "react-native-vector-icons/Ionicons";
-import { ListSearch } from "../components/ListSearch";
-import { useMovies } from "../hooks/useMovies";
+import { ViewMovieGenre } from "../components";
+import { useAuthStore } from "../hooks/useAuthStore";
+import { useMoviesStore } from "../hooks/useMoviesStore";
 
-export const SearchScreen = ({ navigation }) => {
+export const SearchScreen = () => {
 
-  const [ focus , setFocus ] = useState(false)
+  const { search, startGetSetSearch} = useMoviesStore();
 
-  
+  const [ view, setView ] = useState(false);
 
-  const { search, startGetSetSearch, startReset } = useMovies()
-
-
-  useEffect( () => {
-    setFocus(true)
-  }, [])
-
+  const { user } = useAuthStore();
 
   return (
 
-      <View style={{ marginHorizontal: 20 }}>
+    <View style={{ paddingLeft: 22, flex: 1, backgroundColor: '#1F1C2C' }}>
 
-        <Icon 
-            name="search-outline"
-            size={ 25 }
-            color="#FFF"
-            style={ styles.iconSearch }
-        />
-
+        <Text style={ styles.user}>Hi, {user.name}</Text>
 
         <TextInput 
-            placeholder="Buscar una pelicula"
-            placeholderTextColor='#6E6D76'
-            cursorColor='#FFF'
-            style={ styles.searchInput }
-            editable={ focus }
-            autoFocus={ focus }
-            onChangeText={ startGetSetSearch }
-          />
+          placeholder="Search movies"
+          placeholderTextColor='#DDDDDD'
+          cursorColor='#FFF'
+          style={ styles.searchInput }
+          onChangeText={ (keyword) => {
+            startGetSetSearch(keyword)
+            keyword.trim() === '' && setView(false) 
+          }}
+        />
          
-          <Icon 
-            name="close-circle-outline"
-            size={ 30 }
-            color="#FFF"
-            style={ styles.iconCancel }
-            onPress={ () => {
-              navigation.goBack()
-              setFocus(false)
-              startReset()
-            }}
-          />
+          <Pressable 
+            style={ styles.btn }
+            onPress={ () => setView( true ) }
+          >
+              
+            <Icon 
+              name="search-outline"
+              size={ 23 }
+              color="#FFF"
+              style={ styles.iconSearch }
+            />
+          </Pressable>
 
-          <ListSearch search={ search } startReset={startReset} />
+        {
+          view &&
+          (
+            <View style={{ flex: 1, paddingBottom: 70}}>
+              <FlatList 
+                data={ search }
+                keyExtractor={ item => item.id }
+                renderItem={ ({ item }) => (
+                  <ViewMovieGenre movie={ item } />
+                )}
+                showsVerticalScrollIndicator={ false }
+              />
+            </View>
+          )
+        }
                  
 
       </View>
@@ -60,27 +65,41 @@ export const SearchScreen = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-    searchInput:{
-      backgroundColor: '#211F30',
-      width: 350,
-      paddingLeft: 55,
-      borderRadius: 30,
-      zIndex: 4,
-      color: '#FFF',
-      fontWeight: '600'
-    },
-    iconSearch:{
-      top: 37,
-      left: 20,
-      zIndex: 5,
-      width: 30,
-      opacity: 0.8
-    },
-    iconCancel: {
-      position: 'absolute',
-      top: 35,
-      right: 20,
-      zIndex: 5,
-      opacity: 0.8
-    }
+  user: { 
+    color: '#FFF',
+    fontWeight: '700',
+    fontSize: 24,
+    marginVertical: 12
+  },
+  searchInput:{
+    backgroundColor: 'rgba(196, 196, 196, 0.8)',
+    width: 293,
+    paddingLeft: 20,
+    borderRadius: 59,
+    zIndex: 4,
+    color: '#FFF',
+    fontWeight: '300',
+    marginBottom: 10,
+    opacity: 0.5,
+    fontSize: 13,
+    height: 37
+  },
+  iconSearch:{
+    bottom: 1,
+    left: 2,
+    zIndex: 5,
+    width: 30,
+  },
+  btn: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    zIndex: 4,
+    height: 35,
+    width: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF722A',
+    borderRadius: 30
+  }
 })
